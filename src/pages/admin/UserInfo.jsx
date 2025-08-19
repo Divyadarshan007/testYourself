@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux"
 import { deleteUser } from "../../features/exam/examSlice"
 
-const UserList = () => {
+const UserInfo = () => {
     const users = useSelector((store) => store.exam.exams)
     const dispatch = useDispatch()
     const handleDelete = (id) => {
         dispatch(deleteUser(id))
     }
     const handleAssignExam = () => {
-        
+
     }
     return (
         <div className="container mx-auto my-10">
@@ -67,4 +67,4 @@ const UserList = () => {
     )
 }
 
-export default UserList
+export default UserInfo
