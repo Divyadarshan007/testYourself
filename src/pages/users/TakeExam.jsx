@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { questionArray } from "../../data/questionsArray";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { addScore, clearUser } from "../../features/exam/examSlice";
 
@@ -12,6 +12,8 @@ const TakeExam = () => {
     const questions = questionArray.filter((question) => {
         return question.id === examId;
     })
+  
+    
     const [answer, setAnswer] = useState(Array(questions.length).fill(null))
 
     const handleNext = () => {
@@ -33,6 +35,23 @@ const TakeExam = () => {
         setAnswer(updatedAnswer);
     }
 
+    const [time, setTime] = useState(questions.length * 60);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setTime((prev) => {
+                if (prev <= 0) {
+                    handleFinish();
+                    clearInterval(timer);
+                    return;
+                }
+                return prev - 1;
+            });
+        }, 1000)
+        
+        return()=>clearInterval(timer)
+    }, [])
+
     const handleFinish = () => {
         let marks = 0;
         questions.forEach((q, index) => {
@@ -40,17 +59,16 @@ const TakeExam = () => {
                 marks++;
             }
         })
-        dispatch(addScore({ id: userId, marks }))
+        dispatch(addScore({ id: userId, marks, examId }))
         dispatch(clearUser())
         navigate(`/exam/${examId}/result/${userId}`)
-
     }
 
     return (
         <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow">
             <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Question {currentIdx + 1} of {questions.length}</h2>
-                <span className="text-red-500 font-medium">Time Left: 09:45</span>
+                <span className="text-red-500 font-medium">Time Left: {Math.floor(time / 60)}:{time % 60}</span>
             </div>
             <div>
                 <p className="text-lg font-medium mb-4">{currentQuestion.question}</p>

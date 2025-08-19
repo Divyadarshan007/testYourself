@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { questionArray } from "../../data/questionsArray";
 
+
 const Home = () => {
   const navigate = useNavigate()
   let htmlCount = 0;
@@ -18,6 +19,7 @@ const Home = () => {
     }
 
   })
+
   const dummyExams = [
     { id: "html", title: "HTML Basics", totalQ: htmlCount },
     { id: "css", title: "CSS Fundamentals", totalQ: cssCount },
