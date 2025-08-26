@@ -1,26 +1,24 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { questionArray } from "../../data/questionsArray";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addScore, clearUser } from "../../features/exam/examSlice";
 
 const TakeExam = () => {
     const { examId, userId } = useParams()
     const dispatch = useDispatch()
     const navigate = useNavigate();
+    const examData = useSelector((state)=>state.exam.allQuestions)
+    
     const [currentIdx, setCurrentIdx] = useState(0)
-    const questions = questionArray.find((question) => {
+    const questions = examData.find((question) => {
         return question.id === examId
 
     })
 
-
-
-
-    const [answer, setAnswer] = useState(Array(questions.questions.length).fill(null))
-
+    const [answer, setAnswer] = useState(Array(questions.question.length).fill(null))
     const handleNext = () => {
-        if (currentIdx < questions.questions.length - 1) {
+        if (currentIdx < questions.question.length - 1) {
             setCurrentIdx(currentIdx + 1);
         }
     }
@@ -30,7 +28,7 @@ const TakeExam = () => {
         }
     }
 
-    const currentQuestion = questions.questions[currentIdx];
+    const currentQuestion = questions.question[currentIdx];
 
     const handleChange = (idx) => {
         let updatedAnswer = [...answer]
@@ -38,7 +36,7 @@ const TakeExam = () => {
         setAnswer(updatedAnswer);
     }
 
-    const [time, setTime] = useState(questions.questions.length * 60);
+    const [time, setTime] = useState(questions.question.length * 60);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -57,12 +55,12 @@ const TakeExam = () => {
 
     const handleFinish = () => {
         let marks = 0;
-        questions.questions.forEach((q, index) => {
+        questions.question.forEach((q, index) => {
             if (answer[index] == q.correctAnswer) {
                 marks++;
             }
         })
-        dispatch(addScore({ id: userId, marks, examId, time: (questions.questions.length * 60) - time }))
+        dispatch(addScore({ id: userId, marks, examId, time: (questions.question.length * 60) - time }))
         dispatch(clearUser())
         navigate(`/exam/${examId}/result/${userId}`)
     }
@@ -70,7 +68,7 @@ const TakeExam = () => {
     return (
         <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">Question {currentIdx + 1} of {questions.questions.length}</h2>
+                <h2 className="text-xl font-semibold">Question {currentIdx + 1} of {questions.question.length}</h2>
                 <span className="text-red-500 font-medium">Time Left: {Math.floor(time / 60)}:{time % 60}</span>
             </div>
             <div>
@@ -88,7 +86,7 @@ const TakeExam = () => {
                         Prev Question
                     </button>
                     {
-                        currentIdx == questions.questions.length - 1 ?
+                        currentIdx == questions.question.length - 1 ?
                             <button onClick={handleFinish} className="mt-6 bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">
                                 Finish
                             </button> : <button onClick={handleNext} className="mt-6 bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">

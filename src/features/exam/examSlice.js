@@ -44,8 +44,8 @@ const examSlice = createSlice({
         return item.id == action.payload.id
       })
       if (idx == -1) {
-        let { id, title, question, options, correctAnswer } = action.payload
-        state.allQuestions.push({ id, title, questions: [{ question, options, correctAnswer }] })
+        let { id, title, question } = action.payload
+        state.allQuestions.push({ id, title, question })
         localStorage.setItem("allQuestions", JSON.stringify(state.allQuestions))
       }
     },

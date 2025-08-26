@@ -5,31 +5,39 @@ import { assignExam } from "../../features/exam/examSlice";
 const AssignExam = () => {
 
     const [input, setInput] = useState({
-        id: '', title: '', question: '', options: ['', '', '', ''], correctAnswer: '',
+        id: '', title: '',
 
     })
     const [question, setQuestion] = useState([{ question: '', options: ['', '', '', ''], correctAnswer: '' }])
-    const [addQuestion, setAddQuestion] = useState([""])
     const dispatch = useDispatch()
 
     const handleChange = (e) => {
         setInput({ ...input, [e.target.id]: e.target.value })
     }
-    const handleQuestions = () => {
-        
+    const handleQuestions = (idx, value) => {
+        let updatedQues = [...question];
+        updatedQues[idx].question = value;
+        setQuestion(updatedQues)
+
     }
-    const handleOption = (idx, value) => {
-        const updatedobj = [...input.options];
-        updatedobj[idx] = value;
-        setInput({ ...input, options: updatedobj });
+    const handleOption = (idx, optIdx, value) => {
+        const updatedobj = [...question];
+        updatedobj[idx].options[optIdx] = value;
+        setQuestion(updatedobj)
+    }
+    const handleCorrect = (idx, value) => {
+        const updated = [...question];
+        updated[idx].correctAnswer = value;
+        setQuestion(updated);
     }
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(input);
-        dispatch(assignExam(input))
+        const examData = { ...input, question }
+        dispatch(assignExam(examData))
     }
-    const handleAdd = () => {
-        setAddQuestion([...addQuestion, ""])
+    const handleAdd = (e) => {
+        e.preventDefault();
+        setQuestion([...question, { question: '', options: ['', '', '', ''], correctAnswer: '' }])
     }
 
     return (
@@ -59,13 +67,13 @@ const AssignExam = () => {
             </div>
             <div className="flex flex-col items-end max-h-[432px] mb-4 border p-5 overflow-y-scroll">
                 {
-                    addQuestion.map((item, idx) => {
+                    question.map((item, idx) => {
                         return <div key={idx} className="border p-4 mb-4">
                             <div className="mb-4">
-                                <label className="block text-gray-700 font-medium mb-2">Question</label>
+                                <label className="block text-gray-700 font-medium mb-2">Question {idx+1}</label>
                                 <input
-                                    onChange={handleChange}
-                                    value={input.question}
+                                    onChange={(e) => handleQuestions(idx, e.target.value)}
+                                    value={item.question}
                                     id="question"
                                     type="text"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -75,17 +83,20 @@ const AssignExam = () => {
                                 <label className="block text-gray-700 font-medium mb-2">Options</label>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                                     {
-                                        input.options.map((option, indx) => {
-                                            return <input
-                                                key={indx}
-                                                type="text"
-                                                onChange={(e) => handleOption(indx, e.target.value)}
-                                                value={option}
-                                                id="options"
-                                                placeholder="Option 1"
-                                                className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            />
-                                        })
+                                       
+                                         item.options.map((option, optIdx) => {
+                                                return <input
+                                                    key={optIdx}
+                                                    type="text"
+                                                    onChange={(e) => handleOption(idx, optIdx, e.target.value)}
+                                                    value={option}
+                                                    id="options"
+                                                    placeholder={`Option ${optIdx + 1}`}
+                                                    className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                />
+                                            })
+
+                                     
                                     }
 
                                 </div>
@@ -94,26 +105,24 @@ const AssignExam = () => {
                                 <label className="block text-gray-700 font-medium mb-2">Correct Answer (Index)</label>
                                 <input
                                     type="number"
-                                    onChange={handleChange}
-                                    value={input.correctAnswer}
+                                    onChange={(e) => handleCorrect(idx, e.target.value)}
+                                    value={item.correctAnswer}
                                     id="correctAnswer"
                                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    placeholder="Enter the correct option number (1-4)"
+                                    placeholder="Enter the correct option number (0-3)"
                                 />
                             </div>
                         </div>
                     })
                 }
-                <span className="cursor-pointer" onClick={handleAdd}>Add more</span>
+                <button className="cursor-pointer" type="button" onClick={handleAdd}>Add more</button>
             </div>
 
             <div className="text-center flex justify-center gap-4">
                 <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
                     Assign
                 </button>
-                <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
-                    add more questions
-                </button>
+           
             </div>
         </form>
     );
