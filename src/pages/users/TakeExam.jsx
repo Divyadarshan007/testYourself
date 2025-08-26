@@ -9,15 +9,18 @@ const TakeExam = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     const [currentIdx, setCurrentIdx] = useState(0)
-    const questions = questionArray.filter((question) => {
-        return question.id === examId;
+    const questions = questionArray.find((question) => {
+        return question.id === examId
+
     })
-  
-    
-    const [answer, setAnswer] = useState(Array(questions.length).fill(null))
+
+
+
+
+    const [answer, setAnswer] = useState(Array(questions.questions.length).fill(null))
 
     const handleNext = () => {
-        if (currentIdx < questions.length - 1) {
+        if (currentIdx < questions.questions.length - 1) {
             setCurrentIdx(currentIdx + 1);
         }
     }
@@ -27,7 +30,7 @@ const TakeExam = () => {
         }
     }
 
-    const currentQuestion = questions[currentIdx];
+    const currentQuestion = questions.questions[currentIdx];
 
     const handleChange = (idx) => {
         let updatedAnswer = [...answer]
@@ -35,7 +38,7 @@ const TakeExam = () => {
         setAnswer(updatedAnswer);
     }
 
-    const [time, setTime] = useState(questions.length * 60);
+    const [time, setTime] = useState(questions.questions.length * 60);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -48,18 +51,18 @@ const TakeExam = () => {
                 return prev - 1;
             });
         }, 1000)
-        
-        return()=>clearInterval(timer)
+
+        return () => clearInterval(timer)
     }, [])
 
     const handleFinish = () => {
         let marks = 0;
-        questions.forEach((q, index) => {
+        questions.questions.forEach((q, index) => {
             if (answer[index] == q.correctAnswer) {
                 marks++;
             }
         })
-        dispatch(addScore({ id: userId, marks, examId }))
+        dispatch(addScore({ id: userId, marks, examId, time: (questions.questions.length * 60) - time }))
         dispatch(clearUser())
         navigate(`/exam/${examId}/result/${userId}`)
     }
@@ -67,7 +70,7 @@ const TakeExam = () => {
     return (
         <div className="p-6 max-w-4xl mx-auto bg-white rounded-xl shadow">
             <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">Question {currentIdx + 1} of {questions.length}</h2>
+                <h2 className="text-xl font-semibold">Question {currentIdx + 1} of {questions.questions.length}</h2>
                 <span className="text-red-500 font-medium">Time Left: {Math.floor(time / 60)}:{time % 60}</span>
             </div>
             <div>
@@ -85,7 +88,7 @@ const TakeExam = () => {
                         Prev Question
                     </button>
                     {
-                        currentIdx == questions.length - 1 ?
+                        currentIdx == questions.questions.length - 1 ?
                             <button onClick={handleFinish} className="mt-6 bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700">
                                 Finish
                             </button> : <button onClick={handleNext} className="mt-6 bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">
