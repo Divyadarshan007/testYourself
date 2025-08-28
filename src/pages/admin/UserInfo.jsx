@@ -18,7 +18,7 @@ const UserInfo = () => {
         <div className="container mx-auto my-10">
             <div className="flex gap-4 justify-end">
                 <button className="border px-7 py-2 mb-5" onClick={() => setSubmittedExam(true)}>Submitted Exam</button>
-                <button className="border px-7 py-2 mb-5" onClick={() => setSubmittedExam(!submittedExam)}>Assigned Exam</button>
+                <button className="border px-7 py-2 mb-5" onClick={() => setSubmittedExam(false)}>Assigned Exam</button>
             </div>
             {
                 submittedExam ?
@@ -79,7 +79,7 @@ const UserInfo = () => {
                                         No
                                     </th>
                                     <th scope="col" className="px-6 py-3">
-                                        
+
                                         Exam Title
                                     </th>
                                     <th scope="col" className="px-6 py-3">
@@ -98,7 +98,7 @@ const UserInfo = () => {
                                     allExams.map((exam, idx) => {
                                         return <tr key={idx} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                                {idx+1}
+                                                {idx + 1}
                                             </th>
                                             <td className="px-6 py-4">
                                                 {exam.id}
