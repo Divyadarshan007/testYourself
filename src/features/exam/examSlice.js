@@ -16,7 +16,6 @@ const examSlice = createSlice({
     },
     addScore: (state, action) => {
       const { id, marks, examId, time } = action.payload;
-
       let user = state.exams.find((u) => {
         return u.id == id;
       })
@@ -44,8 +43,8 @@ const examSlice = createSlice({
         return item.id == action.payload.id
       })
       if (idx == -1) {
-        let { id, title, question } = action.payload
-        state.allQuestions.push({ id, title, question })
+        let { id, title, questions } = action.payload
+        state.allQuestions.push({ id, title, questions })
         localStorage.setItem("allQuestions", JSON.stringify(state.allQuestions))
       }
     },

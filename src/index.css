@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-image{
+    background-image: url('/ChatGPT\ Image\ Aug\ 28\,\ 2025\,\ 01_08_06\ PM.png');
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
