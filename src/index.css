@@ -10,3 +10,10 @@
     background-repeat: no-repeat;
     background-color: #40808a;
 }
+
+.noScroll-bar{
+    scrollbar-width: none;
+}
+.height{
+    height: calc(100vh - 68.5px);
+}

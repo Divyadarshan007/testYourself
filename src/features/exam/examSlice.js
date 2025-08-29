@@ -49,10 +49,18 @@ const examSlice = createSlice({
       }
     },
     addQuestion: () => {
-    
+
+    },
+
+    deleteExam: (state, action) => {
+      state.allQuestions = state.allQuestions.filter((item) => {
+        return item.id !== action.payload;
+      })
+      localStorage.setItem("allQuestions", JSON.stringify(state.allQuestions))
     }
+
   },
 });
 
-export const { addUserInfo, addScore, clearUser, deleteUser, assignExam } = examSlice.actions;
+export const { addUserInfo, addScore, clearUser, deleteUser, assignExam, deleteExam } = examSlice.actions;
 export default examSlice.reducer;
