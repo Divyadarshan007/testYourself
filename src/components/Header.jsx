@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
@@ -12,12 +12,13 @@ const navItems = [
 const Header = () => {
   const [hovered, setHovered] = useState(null);
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate()
 
   return (
     <header className="sticky top-0 z-50 bg-slate-950/70">
       <nav className="w-full border-b border-slate-800/70 bg-slate-950/70 ">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          
+
           <Link to="/" className="flex items-center gap-3">
             <div className="h-9 w-9 rounded-xl bg-indigo-600 grid place-items-center text-white font-bold">
               EX
@@ -25,9 +26,9 @@ const Header = () => {
             <span className="text-lg font-semibold text-white">Exam Portal</span>
           </Link>
 
-        
+
           <div className="md:hidden flex items-center gap-2">
-            <button className="rounded-lg bg-indigo-600 px-3 py-1.5 text-white text-sm hover:bg-indigo-500 transition-colors">
+            <button onClick={() => navigate('/login')} className="rounded-lg bg-indigo-600 px-3 py-1.5 text-white text-sm hover:bg-indigo-500 transition-colors">
               Login
             </button>
             <button
@@ -80,7 +81,7 @@ const Header = () => {
             ))}
 
             <div className="ml-3">
-              <button className="rounded-lg bg-indigo-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
+              <button onClick={() => navigate('/login')} className="rounded-lg bg-indigo-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
                 Login
               </button>
             </div>

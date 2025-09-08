@@ -9,7 +9,7 @@ const AssignExam = () => {
   });
   const [questions, setQuestions] = useState([{ question: "", options: ["", "", "", ""], correctAnswer: "" }]);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     setInput({ ...input, [e.target.id]: e.target.value });

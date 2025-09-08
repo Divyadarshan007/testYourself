@@ -7,21 +7,25 @@ import AssignExam from "./pages/admin/AssignExam"
 import UserInfo from "./pages/admin/UserInfo"
 import Header from "./components/Header"
 import Exams from "./pages/users/Exams"
+import EditExam from "./pages/admin/EditExam"
+import AdminLogin from "./pages/admin/AdminLogin"
 
 const App = () => {
   return (
     <div>
 
       <BrowserRouter>
-        <Header/>
+        <Header />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/exam/:examId" element={<Instructions />} />
           <Route path="/exam/:examId/start/:userId" element={<TakeExam />} />
           <Route path="/exam/:examId/result/:userId" element={<Results />} />
-          <Route path="/admin" element={<UserInfo/>} />
-          <Route path="/assign" element={<AssignExam/>} />
-          <Route path="/all-exam" element={<Exams/>} />
+          <Route path="/admin" element={<UserInfo />} />
+          <Route path="/assign" element={<AssignExam />} />
+          <Route path="/edit-exam/:examId" element={<EditExam />} />
+          <Route path="/all-exam" element={<Exams />} />
+          <Route path="/login" element={<AdminLogin />} />
         </Routes>
       </BrowserRouter>
     </div>

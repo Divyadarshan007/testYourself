@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { deleteExam, deleteUser } from "../../features/exam/examSlice";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const UserInfo = () => {
     const users = useSelector((store) => store.exam.exams);
     const allExams = useSelector((store) => store.exam.allQuestions);
     const dispatch = useDispatch();
     const [submittedExam, setSubmittedExam] = useState(true);
+    const navigate = useNavigate();
 
     const handleDelete = (id) => {
         dispatch(deleteUser(id));
@@ -158,9 +160,10 @@ const UserInfo = () => {
                                                     Delete
                                                 </button>
                                                 <button
+                                                    onClick={() => navigate(`/edit-exam/${exam.id}`)}
                                                     className="inline-flex items-center gap-2 rounded-lg bg-indigo-600/90 px-3 py-1.5 text-white text-xs font-medium shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-slate-900 transition-colors"
                                                 >
-                                                    kuch or
+                                                    Update
                                                 </button>
                                             </div>
                                         </td>
