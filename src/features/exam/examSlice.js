@@ -1,14 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 let data = JSON.parse(localStorage.getItem("users")) || []
 let questionsData = JSON.parse(localStorage.getItem("allQuestions")) || []
-
+let loggedIn = JSON.parse(localStorage.getItem("isLoggedIn")) || false;
 const examSlice = createSlice({
   name: "exam",
   initialState: {
     exams: data,
-    allQuestions: questionsData
+    allQuestions: questionsData,
+    isLoggedIn: loggedIn
   },
   reducers: {
+    getLogin: (state, action) => {
+      localStorage.setItem("isLoggedIn", JSON.stringify(action.payload))
+      state.isLoggedIn = action.payload
+    },
+    getLogout: (state, action) => {
+      localStorage.setItem("isLoggedIn", JSON.stringify(action.payload))
+      state.isLoggedIn = action.payload
+    },
     addUserInfo: (state, action) => {
       state.exams.push(action.payload)
       localStorage.setItem("users", JSON.stringify(state.exams))
@@ -52,7 +61,7 @@ const examSlice = createSlice({
       const { id, ...data } = action.payload;
 
       console.log(action.payload);
-      
+
       const idx = state.allQuestions.findIndex((item) => {
         return item.id === id;
       })
@@ -70,5 +79,5 @@ const examSlice = createSlice({
   },
 });
 
-export const { addUserInfo, addScore, clearUser, deleteUser, assignExam, deleteExam, editExam } = examSlice.actions;
+export const { addUserInfo, addScore, clearUser, deleteUser, assignExam, deleteExam, editExam, getLogin, getLogout } = examSlice.actions;
 export default examSlice.reducer;

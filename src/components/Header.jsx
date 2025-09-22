@@ -1,6 +1,8 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useDispatch, useSelector } from "react-redux";
+import { getLogout } from "../features/exam/examSlice";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -13,6 +15,11 @@ const Header = () => {
   const [hovered, setHovered] = useState(null);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const isLoggedIn = useSelector((store) => store.exam.isLoggedIn);
+  const handleLogout = () => {
+    dispatch(getLogout(false))
+  }
 
   return (
     <header className="sticky top-0 z-50 bg-slate-950/70">
@@ -81,9 +88,13 @@ const Header = () => {
             ))}
 
             <div className="ml-3">
-              <button onClick={() => navigate('/login')} className="rounded-lg bg-indigo-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
-                Login
-              </button>
+              {isLoggedIn
+                ? <button onClick={handleLogout} className="w-full rounded-lg bg-rose-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
+                  Logout
+                </button>
+                : <button className="w-full rounded-lg bg-indigo-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
+                  Login
+                </button>}
             </div>
           </div>
         </div>
@@ -110,9 +121,13 @@ const Header = () => {
                 </li>
               ))}
               <li className="pt-2">
-                <button className="w-full rounded-lg bg-indigo-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
-                  Login
-                </button>
+                {isLoggedIn
+                  ? <button className="w-full rounded-lg bg-rose-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
+                    Logout
+                  </button>
+                  : <button className="w-full rounded-lg bg-indigo-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
+                    Login
+                  </button>}
               </li>
             </ul>
           </div>

@@ -1,19 +1,23 @@
 import { useState } from "react"
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux"
+import { getLogin } from "../../features/exam/examSlice"
+import { useNavigate } from "react-router-dom"
 
 const AdminLogin = () => {
     const [input, setInput] = useState({ email: '', password: '' })
-    const navigate = useNavigate();
-    const location = useLocation()
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (input.email.trim() === 'admin@gmail.com' && input.password.trim() === 'password') {
+                dispatch(getLogin(true))
+                navigate('/')
+        }
+    }
 
     return (
         <div className="container mx-auto ">
-            <form className="max-w-sm mx-auto py-10" onSubmit={(e) => {
-                e.preventDefault();
-                if (input.email.trim() === 'admin@gmail.com' || input.password.trim() === 'password') {
-                    Navigate
-                }
-            }}>
+            <form className="max-w-sm mx-auto py-10" onSubmit={handleSubmit}>
                 <div className="mb-5">
                     <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 ">Your email</label>
                     <input onChange={(e) => setInput({ ...input, [e.target.id]: e.target.value })} type="email" id="email" value={input.email} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="name@flowbite.com" />
