@@ -35,7 +35,7 @@ export default function Exams() {
   );
 
   return (
-    <div className="relative min-h-screen bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white">
+    <section className="relative height  bg-slate-950 text-slate-100 selection:bg-indigo-500 selection:text-white">
      
       <div className="pointer-events-none fixed inset-0">
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] rounded-full blur-3xl opacity-20 bg-indigo-600/20" />
@@ -144,6 +144,6 @@ export default function Exams() {
           ))}
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 }

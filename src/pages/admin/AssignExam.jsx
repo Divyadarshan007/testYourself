@@ -9,7 +9,7 @@ const AssignExam = () => {
   });
   const [questions, setQuestions] = useState([{ question: "", options: ["", "", "", ""], correctAnswer: "" }]);
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setInput({ ...input, [e.target.id]: e.target.value });
@@ -29,36 +29,36 @@ const AssignExam = () => {
     updated[idx].correctAnswer = value;
     setQuestions(updated);
   };
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  if (!input.id.trim() || !input.title.trim()) {
-    alert("Exam ID and Title cannot be empty.");
-    return;
-  }
-
-  for (let i = 0; i < questions.length; i++) {
-    const q = questions[i];
-    if (!q.question.trim()) {
-      alert(`Question ${i + 1} cannot be empty.`);
+    if (!input.id.trim() || !input.title.trim()) {
+      alert("Exam ID and Title cannot be empty.");
       return;
     }
-    for (let j = 0; j < q.options.length; j++) {
-      if (!q.options[j].trim()) {
-        alert(`Option ${j + 1} for Question ${i + 1} cannot be empty.`);
+
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
+      if (!q.question.trim()) {
+        alert(`Question ${i + 1} cannot be empty.`);
+        return;
+      }
+      for (let j = 0; j < q.options.length; j++) {
+        if (!q.options[j].trim()) {
+          alert(`Option ${j + 1} for Question ${i + 1} cannot be empty.`);
+          return;
+        }
+      }
+      if (q.correctAnswer === "" || q.correctAnswer < 0 || q.correctAnswer > 3) {
+        alert(`Correct Answer for Question ${i + 1} must be between 0 and 3.`);
         return;
       }
     }
-    if (q.correctAnswer === "" || q.correctAnswer < 0 || q.correctAnswer > 3) {
-      alert(`Correct Answer for Question ${i + 1} must be between 0 and 3.`);
-      return;
-    }
-  }
 
-  const examData = { ...input, questions };
-  dispatch(assignExam(examData));
-  navigate('/admin')
-};
+    const examData = { ...input, questions };
+    dispatch(assignExam(examData));
+    navigate('/admin')
+  };
 
   const handleAdd = (e) => {
     e.preventDefault();
@@ -66,7 +66,7 @@ const handleSubmit = (e) => {
   };
 
   return (
-    <div className="relative min-h-screen bg-slate-950 text-slate-100 py-12">
+    <section className="relative height bg-slate-950 text-slate-100 py-12">
       <div className="pointer-events-none fixed inset-0">
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[1100px] h-[700px] rounded-full blur-3xl opacity-20 bg-indigo-600/20" />
         <div className="absolute inset-0 bg-[radial-gradient(900px_480px_at_50%_-140px,rgba(99,102,241,0.08),transparent_60%)]" />
@@ -171,7 +171,7 @@ const handleSubmit = (e) => {
           </div>
         </div>
 
-        
+
         <div className="sticky bottom-0 -mx-6 mt-6 bg-gradient-to-t from-slate-950/80 to-transparent px-6 py-3 backdrop-blur-sm">
           <div className="flex justify-center">
             <button
@@ -183,7 +183,7 @@ const handleSubmit = (e) => {
           </div>
         </div>
       </form>
-    </div>
+    </section>
   );
 };
 

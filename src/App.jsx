@@ -17,14 +17,14 @@ const App = () => {
       <BrowserRouter>
         <Header />
         <Routes>
-          <Route path="/" element={<ProtectedRoutes Component={Home} />} />
-          <Route path="/exam/:examId" element={<ProtectedRoutes Component={Instructions} />} />
-          <Route path="/exam/:examId/start/:userId" element={<ProtectedRoutes Component={TakeExam} />} />
-          <Route path="/exam/:examId/result/:userId" element={<ProtectedRoutes Component={Results} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/exam/:examId" element={<Instructions />} />
+          <Route path="/exam/:examId/start/:userId" element={<TakeExam />} />
+          <Route path="/exam/:examId/result/:userId" element={<Results />} />
           <Route path="/admin" element={<ProtectedRoutes Component={UserInfo} />} />
           <Route path="/assign" element={<ProtectedRoutes Component={AssignExam} />} />
           <Route path="/edit-exam/:examId" element={<ProtectedRoutes Component={EditExam} />} />
-          <Route path="/all-exam" element={<ProtectedRoutes Component={Exams} />} />
+          <Route path="/all-exam" element={<Exams />} />
           <Route path="/login" element={<AdminLogin />} />
         </Routes>
       </BrowserRouter>

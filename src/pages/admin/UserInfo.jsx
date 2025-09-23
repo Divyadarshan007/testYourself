@@ -18,7 +18,7 @@ const UserInfo = () => {
         dispatch(deleteExam(id));
     }
     return (
-        <div className="relative min-h-screen bg-slate-950 text-slate-100">
+        <section className="relative height bg-slate-950 text-slate-100">
             <div className="max-w-6xl mx-auto px-4 py-8">
                 <div className="flex items-center justify-between mb-5">
                     <h1 className="text-2xl font-bold tracking-tight">User Info</h1>
@@ -181,7 +181,7 @@ const UserInfo = () => {
                     )}
                 </div>
             </div>
-        </div>
+        </section>
     );
 };
 

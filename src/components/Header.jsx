@@ -55,45 +55,52 @@ const Header = () => {
           </div>
 
           <div className="hidden md:flex items-center gap-1 relative">
-            {navItems.map((item) => (
-              <div
-                key={item.to}
-                className="relative"
-                onMouseEnter={() => setHovered(item.to)}
-                onMouseLeave={() => setHovered(null)}
-              >
-                <NavLink
-                  to={item.to}
-                  className={({ isActive }) =>
-                    [
-                      "px-3 py-2 rounded-md text-sm transition-colors relative",
-                      isActive ? "text-white" : "text-slate-300 hover:text-white",
-                    ].join(" ")
-                  }
+            {navItems
+              .filter(item => {
+                if (!isLoggedIn && (item.label === "Assign Exam" || item.label === "Data")) {
+                  return false;
+                }
+                return true;
+              })
+              .map((item) => (
+                <div
+                  key={item.to}
+                  className="relative"
+                  onMouseEnter={() => setHovered(item.to)}
+                  onMouseLeave={() => setHovered(null)}
                 >
-                  {({ isActive }) => (
-                    <>
-                      {item.label}
-                      {(hovered === item.to || isActive) && (
-                        <motion.span
-                          layoutId="nav-hover"
-                          className="absolute inset-0 -z-10 rounded-md bg-slate-800/80"
-                          transition={{ type: "spring", stiffness: 250, damping: 22 }}
-                        />
-                      )}
-                    </>
-                  )}
-                </NavLink>
-              </div>
-            ))}
+                  <NavLink
+                    to={item.to}
+                    className={({ isActive }) =>
+                      [
+                        "px-3 py-2 rounded-md text-sm transition-colors relative",
+                        isActive ? "text-white" : "text-slate-300 hover:text-white",
+                      ].join(" ")
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {item.label}
+                        {(hovered === item.to || isActive) && (
+                          <motion.span
+                            layoutId="nav-hover"
+                            className="absolute inset-0 -z-10 rounded-md bg-slate-800/80"
+                            transition={{ type: "spring", stiffness: 250, damping: 22 }}
+                          />
+                        )}
+                      </>
+                    )}
+                  </NavLink>
+                </div>
+              ))}
 
             <div className="ml-3">
               {isLoggedIn
                 ? <button onClick={handleLogout} className="w-full rounded-lg bg-rose-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
                   Logout
                 </button>
-                : <button className="w-full rounded-lg bg-indigo-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
-                  Login
+                : <button onClick={() => navigate('/login')} className="w-full rounded-lg bg-indigo-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
+                  Admin
                 </button>}
             </div>
           </div>
@@ -102,7 +109,12 @@ const Header = () => {
         {open && (
           <div className="md:hidden border-t border-slate-800/70 bg-slate-950/80">
             <ul className="max-w-6xl mx-auto px-4 py-3 space-y-1">
-              {navItems.map((item) => (
+              {navItems.filter((item) => {
+                if (!isLoggedIn && (item.label === "Assign Exam" || item.label === "Data")) {
+                  return false;
+                }
+                return true;
+              }).map((item) => (
                 <li key={item.to}>
                   <NavLink
                     to={item.to}
@@ -122,11 +134,11 @@ const Header = () => {
               ))}
               <li className="pt-2">
                 {isLoggedIn
-                  ? <button className="w-full rounded-lg bg-rose-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
+                  ? <button onClick={handleLogout} className="w-full rounded-lg bg-rose-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
                     Logout
                   </button>
-                  : <button className="w-full rounded-lg bg-indigo-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
-                    Login
+                  : <button onClick={() => navigate('/login')} className="w-full rounded-lg bg-indigo-600 px-3.5 py-2 text-white text-sm hover:bg-indigo-500 transition-colors">
+                    admin
                   </button>}
               </li>
             </ul>

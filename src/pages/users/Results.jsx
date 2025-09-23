@@ -22,12 +22,12 @@ const Result = () => {
     setTime(findedUser.timeTaken);
   }, [userId, examId, users]);
 
-  
+
   const percent = questionCount ? Math.round((marks / questionCount) * 100) : 0;
   const mm = String(Math.floor(time / 60)).padStart(2, "0");
   const ss = String(Math.floor(time % 60)).padStart(2, "0");
 
-  
+
   const size = 140;
   const stroke = 10;
   const radius = (size - stroke) / 2;
@@ -49,12 +49,12 @@ const Result = () => {
           transition={{ duration: 0.35, ease: "easeOut" }}
           className="mb-6"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+          <div className={`inline-flex items-center gap-2 rounded-full border  px-3 py-1 text-xs ${percent >= 40 ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-300" : "border-rose-500/20 bg-rose-500/10 text-rose-300"}`}>
+            <span className={`inline-block h-1.5 w-1.5 rounded-full ${percent >= 40 ? "bg-emerald-400" : "bg-rose-400"} animate-pulse`} />
             Exam Completed
           </div>
           <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-white">
-            🎉 Well done!
+            {percent >= 40 ? "🎉 Well done !" : "😢 Oops !"}
           </h1>
           <p className="mt-2 text-slate-400">
             Here’s a quick summary of performance and time.
@@ -62,7 +62,7 @@ const Result = () => {
         </motion.div>
 
         <div className="group relative overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/70 backdrop-blur-sm shadow-[0_10px_30px_-15px_rgba(0,0,0,0.7)]">
-          <div className="absolute inset-x-0 top-0 h-1.5 bg-emerald-500/40 group-hover:bg-emerald-400/70 transition-colors" />
+          <div className={`absolute inset-x-0 top-0 h-1.5 ${percent >= 40 ? "bg-emerald-500/40 group-hover:bg-emerald-400/70" : "bg-red-500/40 group-hover:bg-red-400/70"} transition-colors`} />
 
           <div className="relative p-6">
             <div className="flex items-center gap-6">
@@ -83,7 +83,7 @@ const Result = () => {
                     r={radius}
                     stroke="currentColor"
                     strokeWidth={stroke}
-                    className="text-emerald-500 drop-shadow"
+                    className={`${percent >= 40 ? "text-emerald-500" : "text-rose-500"} drop-shadow`}
                     fill="none"
                     strokeLinecap="round"
                     strokeDasharray={circ}
@@ -110,7 +110,7 @@ const Result = () => {
 
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-800/80 border border-slate-700 px-3 py-1 text-xs text-slate-200">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                    <span className={`h-2 w-2 rounded-full ${percent >= 40 ? "bg-emerald-400" : "bg-rose-400"}`} />
                     Passed criteria: {percent >= 40 ? "Yes" : "No"}
                   </span>
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-800/80 border border-slate-700 px-3 py-1 text-xs text-slate-200">
